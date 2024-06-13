@@ -1,7 +1,7 @@
 //import db schema
 const {Product, User} = require('../model/Product')
 
-//get all products
+//insert user
 const insert_user = async (req, res) => {
     let obj=new User({
         "u_id": req.body.u_id,
@@ -26,4 +26,22 @@ const insert_user = async (req, res) => {
     
 }
 
-module.exports={insert_user}
+//delete user
+const delete_user = async (req, res) => {
+    let u_id = req.body.u_id
+    try {
+        const deletedproduct = await User.deleteOne({ u_id })
+        if (deletedproduct.deletedCount != 0) {
+            console.log('User Deleted')
+            res.send({ 'delete-user': 'success' })
+        }
+        else {
+            console.log('User Not deleted')
+            res.send({ 'delete-user': 'failed' })
+        }
+    }
+    catch (error) {
+        res.status(400).send(error)
+    }
+}
+module.exports={insert_user,delete_user}
